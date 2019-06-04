@@ -22,10 +22,13 @@ public class Frist extends JFrame{
 
     public static Object[] columsNames1;
     public static JTable tablePre;
+    public static JTable tableRun;
+    public static JTable tableDis;
     public static JPanel panelBb;
     public static DefaultTableModel model2;
 
     public static DefaultTableModel model1;
+    public static DefaultTableModel model3;
 
     public static void main(String[] args) {
 
@@ -34,10 +37,29 @@ public class Frist extends JFrame{
         FlowLayout flow = new FlowLayout();
         frame.setLayout(null);
         frame.setSize(1500,800);
+
         JMenuBar bar = new JMenuBar();
         JMenu menu = new JMenu("设置");
+        menu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showInternalConfirmDialog(frame,
+                        "默认设置: 1个CPU 20s时间片", "information",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
         bar.add(menu);
         JMenu menu1 = new JMenu("关于");
+        menu1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showInternalConfirmDialog(frame,
+                        "抄袭必挂！！！", "0v0",
+                        JOptionPane.YES_NO_CANCEL_OPTION,
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
         bar.add(menu1);
         JMenuItem item = new JMenuItem("Faker must be dead!");
         menu1.add(item);
@@ -68,8 +90,39 @@ public class Frist extends JFrame{
         panelA.setSize(220,220);
         JPanel panelAa = new JPanel();
         panelAa.setSize(40,20);
-        panelAa.add(new JButton("停止"));
-        panelAa.add(new JButton("阻塞"));
+        JButton bs1 = new JButton("停止");
+        bs1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int res=JOptionPane.showConfirmDialog(null, "是否结束该进程吗？", "是否继续", JOptionPane.YES_NO_OPTION);
+                if(res==JOptionPane.YES_OPTION){
+                    int index = tableRun.getSelectedRow();
+                    model1.removeRow(index);
+                }else{
+                    return;
+                }
+            }
+        });
+        panelAa.add(bs1);
+        JButton bz1 = new JButton("阻塞");
+        bz1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int res=JOptionPane.showConfirmDialog(null, "是否阻塞该进程吗？", "是否继续", JOptionPane.YES_NO_OPTION);
+                 if(res==JOptionPane.YES_OPTION){
+                     int index = (int) model1.getValueAt(0,0);
+                     model1.removeRow(0);
+                     Produce produce = produceMap.get(index);
+                     Object[] row = new Object[2];
+                     row[0] = produce.getPID();
+                     row[1] = produce.getName();
+                     model3.addRow(row);
+                 }else{
+                     return;
+                 }
+            }
+        });
+        panelAa.add(bz1);
         panelA.add(panelAa);
         JPanel panelAb = new JPanel();
         panelAb.setSize(220,200);
@@ -77,7 +130,7 @@ public class Frist extends JFrame{
 
         Object[] columsNames = {"PID","名称","时间片","剩余运行时间"};
         model1 = new DefaultTableModel(columsNames,0);
-        JTable tableRun = new JTable(model1);
+        tableRun = new JTable(model1);
         panelAb.add(new JScrollPane(tableRun));
 
 
@@ -86,7 +139,20 @@ public class Frist extends JFrame{
         panelB.setSize(120,220);
         JPanel panelBa = new JPanel();
         panelBa.setSize(40,20);
-        panelBa.add(new JButton("停止"));
+        JButton bs2 = new JButton("停止");
+        bs2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int res=JOptionPane.showConfirmDialog(null, "是否结束该进程吗？", "是否结束", JOptionPane.YES_NO_OPTION);
+                if(res==JOptionPane.YES_OPTION){
+                    int index = tablePre.getSelectedRow();
+                    model2.removeRow(index);
+                }else{
+                    return;
+                }
+            }
+        });
+        panelBa.add(bs2);
         panelB.add(panelBa);
         panelBb = new JPanel();
         panelBb.setSize(220,200);
@@ -104,16 +170,49 @@ public class Frist extends JFrame{
         panelC.setSize(120,220);
         JPanel panelCa = new JPanel();
         panelCa.setSize(40,20);
-        panelCa.add(new JButton("停止"));
-        panelCa.add(new JButton("激活"));
+        JButton bs3 = new JButton("停止");
+        bs3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int res=JOptionPane.showConfirmDialog(null, "是否结束该进程吗？", "确定继续？", JOptionPane.YES_NO_OPTION);
+                if(res==JOptionPane.YES_OPTION){
+                    int index = tableDis.getSelectedRow();
+                    model3.removeRow(index);
+                }else{
+                    return;
+                }
+            }
+        });
+        panelCa.add(bs3);
+        JButton jl = new JButton("激活");
+        panelCa.add(jl);
+        jl.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int res=JOptionPane.showConfirmDialog(null, "是否激活该进程吗？", "是否继续", JOptionPane.YES_NO_OPTION);
+                if(res==JOptionPane.YES_OPTION){
+                    int index = tableDis.getSelectedRow();
+                    model3.removeRow(index);
+                    Produce produce = produceMap.get(index);
+                    Object[] row = new Object[3];
+                    row[0] = produce.getPID();
+                    row[1] = produce.getName();
+                    row[2] = produce.getTimeRest();
+                    model2.addRow(row);
+                }else{
+                    return;
+                }
+            }
+        });
         panelC.add(panelCa);
         JPanel panelCb = new JPanel();
         panelCb.setSize(220,200);
         panelC.add(panelCb);
 
-        Object[][] disData = {{5,"harden"}};
         Object[] columsNames2 = {"PID","名称"};
-        JTable tableDis = new JTable(disData,columsNames2);
+        model3 = new DefaultTableModel(columsNames2,0);
+        tableDis = new JTable(model3);
         panelCb.add(new JScrollPane(tableDis));
 
         panel.add(panelA);

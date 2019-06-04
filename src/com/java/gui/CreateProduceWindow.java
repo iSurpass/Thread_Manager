@@ -97,7 +97,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         int index = model1.getDataVector().indexOf(row);
                         index++;
-                        model1.getDataVector().removeElementAt(index);
+                        model1.removeRow(index);
                         row[0] = produce.getPID();
                         row[1] = produce.getName();
                         row[2] = produce.getTimeSlice();
@@ -107,9 +107,25 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                         int silce = produce.getTimeSlice();
                         silce -= 5;
                         if (silce == 0){
+                            model1.getDataVector().removeElementAt(index);
+                            row[2] = produce.getTimeRest();
+                            model2.addRow(row);
                             silce = 20;
+                            int nextIndex = (int) model2.getValueAt(0,0);
+                            Produce produceNext = produceMap.get(nextIndex);
+                            Object[] rowNext = new Object[4];
+                            rowNext[0] = produceNext.getPID();
+                            rowNext[1] = produceNext.getName();
+                            rowNext[2] = produceNext.getTimeSlice();
+                            rowNext[3] = produceNext.getTimeRest();
+                            model2.getDataVector().removeElementAt(nextIndex);
+                            model1.addRow(rowNext);
+                            //new Timer(delay,taskPerformer).start();
                         }
                         time -= 5;
+                        if (time < 0){
+                            model1.removeRow(0);
+                        }
                         produce.setTimeRest(String.valueOf(time));
                         produce.setTimeSlice(silce);
                     }
