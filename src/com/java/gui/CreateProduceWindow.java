@@ -124,7 +124,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                         }
                         silce -= 5;
                         if (silce == -5){
-                            flag = true;
+                            //flag = true;
                             model1.removeRow(0);
                             //model1.getDataVector().removeElementAt(index);
                             row[2] = produce.getTimeRest();

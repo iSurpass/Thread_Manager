@@ -30,6 +30,7 @@ public class Frist extends JFrame{
     public static DefaultTableModel model1;
     public static DefaultTableModel model3;
 
+    public static Object[] row;
     public static void main(String[] args) {
 
 
@@ -76,6 +77,35 @@ public class Frist extends JFrame{
             }
         });
         JButton b2 = new JButton("停止进程");
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String pid = JOptionPane.showInputDialog("输入进程号");
+                int stopPid = Integer.parseInt(pid);
+                Produce produce = produceMap.get(stopPid);
+                if (stopPid == (int)model1.getValueAt(0,0)){
+                    JOptionPane.showMessageDialog(b2,"确定停止该进程？");
+                    model1.removeRow(0);
+                    return;
+                }
+                for (int i=0;i<model2.getRowCount();i++){
+                    if (stopPid == (int)model2.getValueAt(i,0)){
+                        JOptionPane.showMessageDialog(b2,"确定停止该进程？");
+                        model2.removeRow(i);
+                        return;
+                    }
+                }
+                for (int i=0;i<model3.getRowCount();i++){
+                    if (stopPid == (int)model3.getValueAt(i,0)){
+                        JOptionPane.showMessageDialog(b2,"确定停止该进程？");
+                        model2.removeRow(i);
+                        return;
+                    }
+                }
+                JOptionPane.showMessageDialog(b2,"不存在此进程");
+            }
+        });
         frame.add(panel1);
         panel1.add(b1);
         panel1.add(b2);
@@ -92,17 +122,80 @@ public class Frist extends JFrame{
         panelAa.setSize(40,20);
         JButton bs1 = new JButton("停止");
         bs1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int res=JOptionPane.showConfirmDialog(null, "是否结束该进程吗？", "是否继续", JOptionPane.YES_NO_OPTION);
-                if(res==JOptionPane.YES_OPTION){
-                    int index = tableRun.getSelectedRow();
-                    model1.removeRow(index);
-                }else{
-                    return;
-                }
-            }
-        });
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              int res = JOptionPane.showConfirmDialog(null, "是否结束该进程吗？", "是否继续", JOptionPane.YES_NO_OPTION);
+              if (res == JOptionPane.YES_OPTION) {
+
+                  int index = tableRun.getSelectedRow();
+                  int PID = (int) tablePre.getValueAt(0, 0);
+                  Produce produce = produceMap.get(PID);
+                  row[0] = produce.getPID();
+                  row[1] = produce.getName();
+                  row[2] = produce.getTimeSlice();
+                  row[3] = produce.getTimeRest();
+
+                  int delay = 5000;    //时间间隔，单位为毫秒
+                  ActionListener taskPerformer = new ActionListener() {
+                      @Override
+                      public void actionPerformed(ActionEvent e) {
+                          //int index = model1.getDataVector().indexOf(row);
+                          //index++;
+                          model1.removeRow(0);
+                          row[0] = produce.getPID();
+                          row[1] = produce.getName();
+                          row[2] = produce.getTimeSlice();
+                          row[3] = produce.getTimeRest();
+                          model1.addRow(row);
+                          int time = Integer.parseInt(produce.getTimeRest());
+                          int silce = produce.getTimeSlice();
+                          time -= 5;
+                          if (time < 0) {
+                              model1.removeRow(0);
+                          }
+                          silce -= 5;
+                          if (silce == -5) {
+                              //flag = true;
+                              model1.removeRow(0);
+                              //model1.getDataVector().removeElementAt(index);
+                              row[2] = produce.getTimeRest();
+                              silce = 20;
+                              int nextIndex = (int) model2.getValueAt(0, 0);
+                              Produce produceNext = produceMap.get(nextIndex);
+                              Object[] rowNext = new Object[4];
+                              rowNext[0] = produceNext.getPID();
+                              rowNext[1] = produceNext.getName();
+                              rowNext[2] = produceNext.getTimeSlice();
+                              rowNext[3] = produceNext.getTimeRest();
+                              model2.removeRow(0);
+                              //model2.getDataVector().removeElementAt(nextIndex);
+                              model1.addRow(rowNext);
+                              model2.addRow(row);
+                              //recycle(produceNext);
+                          }
+                          produce.setTimeRest(String.valueOf(time));
+                          produce.setTimeSlice(silce);
+                      }
+                  };
+                  Timer timer = new Timer(delay, taskPerformer);
+                  timer.start();
+                  try {
+                      Thread.sleep(1000);
+                  } catch (InterruptedException e1) {
+                      e1.printStackTrace();
+                  }
+                  int delay1 = 1000;    //时间间隔，单位为毫秒
+                  ActionListener taskPerformer1 = new ActionListener() {
+                      @Override
+                      public void actionPerformed(ActionEvent e) {
+                          model1.getDataVector().remove(row);
+                      }
+                  };
+                  Timer timer1 = new Timer(delay1, taskPerformer1);
+                  timer1.start();
+              }
+          }
+      });
         panelAa.add(bs1);
         JButton bz1 = new JButton("阻塞");
         bz1.addActionListener(new ActionListener() {
@@ -225,5 +318,75 @@ public class Frist extends JFrame{
 
     }
 
+    /*public void excute(Produce produce){
 
+        int delay=5000;    //时间间隔，单位为毫
+        ActionListener taskPerformer=new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //int index = model1.getDataVector().indexOf(row);
+                //index++;
+                System.out.println("3333"+model1.getDataVector().get(0));
+                //model1.getDataVector().remove(row);
+                model1.removeRow(0);
+                row[0] = produce.getPID();
+                row[1] = produce.getName();
+                row[2] = produce.getTimeSlice();
+                row[3] = produce.getTimeRest();
+                model1.addRow(row);
+                int time = Integer.parseInt(produce.getTimeRest());
+                int silce = produce.getTimeSlice();
+                time -= 5;
+                if (time < 0){
+                    model1.removeRow(0);
+                }
+                silce -= 5;
+                if (silce == -5){
+                    flag = true;
+                    model1.removeRow(0);
+                    //model1.getDataVector().removeElementAt(index);
+                    row[2] = produce.getTimeRest();
+                    silce = 20;
+                    int nextIndex = (int) model2.getValueAt(0,0);
+                    Produce produceNext = produceMap.get(nextIndex);
+                    Object[] rowNext = new Object[4];
+                    rowNext[0] = produceNext.getPID();
+                    rowNext[1] = produceNext.getName();
+                    rowNext[2] = produceNext.getTimeSlice();
+                    rowNext[3] = produceNext.getTimeRest();
+                    model2.removeRow(0);
+                    //model2.getDataVector().removeElementAt(nextIndex);
+                    model1.addRow(rowNext);
+                    model2.addRow(row);
+                    recycle(produceNext);
+                    //new Timer(delay,taskPerformer).start();
+                }
+                produce.setTimeRest(String.valueOf(time));
+                produce.setTimeSlice(silce);
+            }
+        };
+        Timer timer = new Timer(delay,taskPerformer);
+        timer.start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e1) {
+            e1.printStackTrace();
+        }
+        int delay1=1000;    //时间间隔，单位为毫秒
+        ActionListener taskPerformer1=new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //model1.removeRow(0);
+                model1.getDataVector().remove(row);
+            }
+        };
+        Timer timer1 =new Timer(delay1,taskPerformer1);
+        timer1.start();
+        if (flag){
+            timer.stop();
+            timer1.stop();
+        }
+    }*/
 }
