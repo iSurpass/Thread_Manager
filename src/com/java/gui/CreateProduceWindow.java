@@ -1,5 +1,7 @@
 package com.java.gui;
 
+import com.sun.scenario.effect.impl.prism.PrReflectionPeer;
+
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
 import java.awt.*;
@@ -110,22 +112,53 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
 
 
+                        if (model1.getRowCount() == 0){
+                            if (model2.getRowCount() == 0){
+                                return;
+                            }
+                            Object[] row = new Object[4];
+                            row[0] = model2.getValueAt(0,0);
+                            row[1] = model2.getValueAt(0,1);
+                            Produce produce1 = new Produce();
+                            produce1.setPID((Integer) model2.getValueAt(0,0));
+                            produce1.setName((String) model2.getValueAt(0,1));
+                            produce1.setTimeRest((Integer) model2.getValueAt(0,2));
+
+                            row[2] = 20;
+                            row[3] = produce1.getTimeRest();
+                            model2.removeRow(0);
+                            model1.addRow(row);
+                        }
+
+
+                        Produce produce1 = new Produce();
+                        int PID = (Integer)model1.getValueAt(0,0);
+                        produce1.setPID((Integer) model1.getValueAt(0,0));
+                        produce1.setName((String) model1.getValueAt(0,1));
+                        produce1.setTimeRest((Integer)model1.getValueAt(0,3));
+                        produceMap.put(PID,produce1);
                         int timeSlice = (int) model1.getValueAt(0,2);
                         timeSlice -= 5;
                         model1.setValueAt(timeSlice,0,2);
-                        //System.out.println(s[2]);
-                        //System.out.println(model1.getDataVector().get(1)[2]);
-
-                        //model1.getDataVector().set(2,timeSlice);
                         int restTime = (int) model1.getValueAt(0,3);
-                        //int restTime1 = Integer.parseInt(restTime);
                         restTime -= 5;
-                        produce.setTimeRest(restTime);
+                        produce1.setTimeRest(restTime);
                         model1.setValueAt(restTime,0,3);
-                        if (timeSlice < 0){
-                            row[2] = produce.getTimeRest();
+
+                        Object[] rowPre = new Object[4];
+                        rowPre[0] = model1.getValueAt(0,0);
+                        rowPre[1] = model1.getValueAt(0,1);
+                        rowPre[2] = model1.getValueAt(0,2);
+                        rowPre[3] = model1.getValueAt(0,3);
+
+                        if (produce1.getTimeRest() == 0){
                             model1.removeRow(0);
-                            model2.addRow(row);
+                        }
+
+                        if (timeSlice == 0){
+                            rowPre[2] = produce1.getTimeRest();
+                            model1.removeRow(0);
+                            model2.addRow(rowPre);
                         }
                         //int index = model1.getDataVector().indexOf(row);
                         //index++;
