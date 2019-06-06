@@ -147,7 +147,7 @@ public class Frist extends JFrame{
                           row[2] = produce.getTimeSlice();
                           row[3] = produce.getTimeRest();
                           model1.addRow(row);
-                          int time = Integer.parseInt(produce.getTimeRest());
+                          int time = produce.getTimeRest();//Integer.parseInt(produce.getTimeRest());
                           int silce = produce.getTimeSlice();
                           time -= 5;
                           if (time < 0) {
@@ -173,7 +173,7 @@ public class Frist extends JFrame{
                               model2.addRow(row);
                               //recycle(produceNext);
                           }
-                          produce.setTimeRest(String.valueOf(time));
+                          produce.setTimeRest(time);
                           produce.setTimeSlice(silce);
                       }
                   };

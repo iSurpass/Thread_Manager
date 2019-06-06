@@ -11,7 +11,7 @@ public class Produce {
 
     private int timeSlice;
 
-    private String timeRest;
+    private int timeRest;
 
     private Status status;
 
@@ -47,11 +47,11 @@ public class Produce {
         this.timeSlice = timeSlice;
     }
 
-    public String getTimeRest() {
+    public int getTimeRest() {
         return timeRest;
     }
 
-    public void setTimeRest(String timeRest) {
+    public void setTimeRest(int timeRest) {
         this.timeRest = timeRest;
     }
 }

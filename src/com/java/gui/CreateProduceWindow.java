@@ -75,7 +75,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
             produce.setPID(PID);
             produce.setStatus(Status.RUNNING);
             produce.setTimeSlice(20);
-            produce.setTimeRest(runTime);
+            produce.setTimeRest(Integer.parseInt(runTime));
 
             //将新创建的进程put进map中
             produces.add(produce);
@@ -108,9 +108,28 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                 {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+
+
+                        int timeSlice = (int) model1.getValueAt(0,2);
+                        timeSlice -= 5;
+                        model1.setValueAt(timeSlice,0,2);
+                        //System.out.println(s[2]);
+                        //System.out.println(model1.getDataVector().get(1)[2]);
+
+                        //model1.getDataVector().set(2,timeSlice);
+                        int restTime = (int) model1.getValueAt(0,3);
+                        //int restTime1 = Integer.parseInt(restTime);
+                        restTime -= 5;
+                        produce.setTimeRest(restTime);
+                        model1.setValueAt(restTime,0,3);
+                        if (timeSlice < 0){
+                            row[2] = produce.getTimeRest();
+                            model1.removeRow(0);
+                            model2.addRow(row);
+                        }
                         //int index = model1.getDataVector().indexOf(row);
                         //index++;
-                        model1.removeRow(0);
+                        /*model1.removeRow(0);
                         row[0] = produce.getPID();
                         row[1] = produce.getName();
                         row[2] = produce.getTimeSlice();
@@ -143,7 +162,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                             recycle(produceNext);
                         }
                         produce.setTimeRest(String.valueOf(time));
-                        produce.setTimeSlice(silce);
+                        produce.setTimeSlice(silce);*/
                     }
                 };
                 Timer timer = new Timer(delay,taskPerformer);
@@ -153,7 +172,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                int delay1=1000;    //时间间隔，单位为毫秒
+                /*int delay1=1000;    //时间间隔，单位为毫秒
                 ActionListener taskPerformer1=new ActionListener()
                 {
                     @Override
@@ -166,7 +185,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                 if (flag){
                     timer.stop();
                     timer1.stop();
-                }
+                }*/
             }
             this.setVisible(false);
         }
@@ -192,7 +211,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                     row[2] = produce.getTimeSlice();
                     row[3] = produce.getTimeRest();
                     model1.addRow(row);
-                    int time = Integer.parseInt(produce.getTimeRest());
+                    int time = produce.getTimeRest();//Integer.parseInt(produce.getTimeRest());
                     int silce = produce.getTimeSlice();
                     time -= 5;
                     if (time < 0){
@@ -219,7 +238,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                         recycle(produceNext);
                         //new Timer(delay,taskPerformer).start();
                     }
-                    produce.setTimeRest(String.valueOf(time));
+                    produce.setTimeRest(time);
                     produce.setTimeSlice(silce);
                 }
             };
