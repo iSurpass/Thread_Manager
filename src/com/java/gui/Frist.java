@@ -83,10 +83,11 @@ public class Frist extends JFrame{
 
                 String pid = JOptionPane.showInputDialog("输入进程号");
                 int stopPid = Integer.parseInt(pid);
-                Produce produce = produceMap.get(stopPid);
-                if (stopPid == (int)model1.getValueAt(0,0)){
-                    JOptionPane.showMessageDialog(b2,"确定停止该进程？");
-                    model1.removeRow(0);
+                if ( model1.getRowCount() > 0){
+                    if (stopPid == (int)model1.getValueAt(0,0) ){
+                        JOptionPane.showMessageDialog(b2,"确定停止该进程？");
+                        model1.removeRow(0);
+                    }
                     return;
                 }
                 for (int i=0;i<model2.getRowCount();i++){
@@ -127,72 +128,8 @@ public class Frist extends JFrame{
               int res = JOptionPane.showConfirmDialog(null, "是否结束该进程吗？", "是否继续", JOptionPane.YES_NO_OPTION);
               if (res == JOptionPane.YES_OPTION) {
 
-                  int index = tableRun.getSelectedRow();
-                  int PID = (int) tablePre.getValueAt(0, 0);
-                  Produce produce = produceMap.get(PID);
-                  row[0] = produce.getPID();
-                  row[1] = produce.getName();
-                  row[2] = produce.getTimeSlice();
-                  row[3] = produce.getTimeRest();
+                  model1.removeRow(0);
 
-                  int delay = 5000;    //时间间隔，单位为毫秒
-                  ActionListener taskPerformer = new ActionListener() {
-                      @Override
-                      public void actionPerformed(ActionEvent e) {
-                          //int index = model1.getDataVector().indexOf(row);
-                          //index++;
-                          model1.removeRow(0);
-                          row[0] = produce.getPID();
-                          row[1] = produce.getName();
-                          row[2] = produce.getTimeSlice();
-                          row[3] = produce.getTimeRest();
-                          model1.addRow(row);
-                          int time = produce.getTimeRest();//Integer.parseInt(produce.getTimeRest());
-                          int silce = produce.getTimeSlice();
-                          time -= 5;
-                          if (time < 0) {
-                              model1.removeRow(0);
-                          }
-                          silce -= 5;
-                          if (silce == -5) {
-                              //flag = true;
-                              model1.removeRow(0);
-                              //model1.getDataVector().removeElementAt(index);
-                              row[2] = produce.getTimeRest();
-                              silce = 20;
-                              int nextIndex = (int) model2.getValueAt(0, 0);
-                              Produce produceNext = produceMap.get(nextIndex);
-                              Object[] rowNext = new Object[4];
-                              rowNext[0] = produceNext.getPID();
-                              rowNext[1] = produceNext.getName();
-                              rowNext[2] = produceNext.getTimeSlice();
-                              rowNext[3] = produceNext.getTimeRest();
-                              model2.removeRow(0);
-                              //model2.getDataVector().removeElementAt(nextIndex);
-                              model1.addRow(rowNext);
-                              model2.addRow(row);
-                              //recycle(produceNext);
-                          }
-                          produce.setTimeRest(time);
-                          produce.setTimeSlice(silce);
-                      }
-                  };
-                  Timer timer = new Timer(delay, taskPerformer);
-                  timer.start();
-                  try {
-                      Thread.sleep(1000);
-                  } catch (InterruptedException e1) {
-                      e1.printStackTrace();
-                  }
-                  int delay1 = 1000;    //时间间隔，单位为毫秒
-                  ActionListener taskPerformer1 = new ActionListener() {
-                      @Override
-                      public void actionPerformed(ActionEvent e) {
-                          model1.getDataVector().remove(row);
-                      }
-                  };
-                  Timer timer1 = new Timer(delay1, taskPerformer1);
-                  timer1.start();
               }
           }
       });

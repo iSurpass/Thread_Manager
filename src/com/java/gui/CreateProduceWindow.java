@@ -64,6 +64,14 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == b1){
+            if (textField.getText() == null || textField.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"您进程号输入为空");
+                return;
+            }
+            if (textField1.getText() == null || textField1.getText().equals("")){
+                JOptionPane.showMessageDialog(null,"您时间输入为空");
+                return;
+            }
             JOptionPane.showMessageDialog(null,"已创建PID为"+pid+"的进程");
             /*int res=JOptionPane.showConfirmDialog(null, "已创建进程1", "信息", JOptionPane.YES_OPTION);
             if(res==JOptionPane.YES_OPTION){
@@ -88,16 +96,13 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
             row[1] = produce.getName();
             row[2] = produce.getTimeRest();
             model2.addRow(row);
-            int index = model2.getDataVector().indexOf(row);
-            index++;
-            System.out.println(index);
 
             //如果运行队列的进程数小于1时，方可进入队列
             if (model1.getRowCount() < 1){
-                model2.removeRow(index);
+                model2.removeRow(0);
                 row[0] = produce.getPID();
                 row[1] = produce.getName();
-                row[2] = produce.getTimeSlice();
+                row[2] = 20;
                 row[3] = produce.getTimeRest();
                 try {
                     model1.addRow(row);
@@ -111,11 +116,13 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-
-                        if (model1.getRowCount() == 0){
+                        //当 CPU 未占用时
+                            if (model1.getRowCount() == 0){
+                            //当就绪队列无进程时
                             if (model2.getRowCount() == 0){
                                 return;
                             }
+
                             Object[] row = new Object[4];
                             row[0] = model2.getValueAt(0,0);
                             row[1] = model2.getValueAt(0,1);
@@ -128,6 +135,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                             row[3] = produce1.getTimeRest();
                             model2.removeRow(0);
                             model1.addRow(row);
+                                System.out.println(row[2]);
                         }
 
 
@@ -151,7 +159,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                         rowPre[2] = model1.getValueAt(0,2);
                         rowPre[3] = model1.getValueAt(0,3);
 
-                        if (produce1.getTimeRest() == 0){
+                        if (produce1.getTimeRest() <= 0){
                             model1.removeRow(0);
                         }
 
@@ -160,65 +168,10 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                             model1.removeRow(0);
                             model2.addRow(rowPre);
                         }
-                        //int index = model1.getDataVector().indexOf(row);
-                        //index++;
-                        /*model1.removeRow(0);
-                        row[0] = produce.getPID();
-                        row[1] = produce.getName();
-                        row[2] = produce.getTimeSlice();
-                        row[3] = produce.getTimeRest();
-                        model1.addRow(row);
-                        int time = Integer.parseInt(produce.getTimeRest());
-                        int silce = produce.getTimeSlice();
-                        time -= 5;
-                        if (time < 0){
-                            model1.removeRow(0);
-                        }
-                        silce -= 5;
-                        if (silce == -5){
-                            //flag = true;
-                            model1.removeRow(0);
-                            //model1.getDataVector().removeElementAt(index);
-                            row[2] = produce.getTimeRest();
-                            silce = 20;
-                            int nextIndex = (int) model2.getValueAt(0,0);
-                            Produce produceNext = produceMap.get(nextIndex);
-                            Object[] rowNext = new Object[4];
-                            rowNext[0] = produceNext.getPID();
-                            rowNext[1] = produceNext.getName();
-                            rowNext[2] = produceNext.getTimeSlice();
-                            rowNext[3] = produceNext.getTimeRest();
-                            model2.removeRow(0);
-                            //model2.getDataVector().removeElementAt(nextIndex);
-                            model1.addRow(rowNext);
-                            model2.addRow(row);
-                            recycle(produceNext);
-                        }
-                        produce.setTimeRest(String.valueOf(time));
-                        produce.setTimeSlice(silce);*/
                     }
                 };
                 Timer timer = new Timer(delay,taskPerformer);
                 timer.start();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                /*int delay1=1000;    //时间间隔，单位为毫秒
-                ActionListener taskPerformer1=new ActionListener()
-                {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        model1.getDataVector().remove(row);
-                    }
-                };
-                Timer timer1 = new Timer(delay1,taskPerformer1);
-                timer1.start();
-                if (flag){
-                    timer.stop();
-                    timer1.stop();
-                }*/
             }
             this.setVisible(false);
         }
