@@ -25,8 +25,6 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
 
     public static Object[] row = new Object[4];
 
-    public static boolean flag = false;
-
     public CreateProduceWindow(){
         this.setSize(400,400);
         this.setVisible(true);
@@ -70,10 +68,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                 return;
             }
             JOptionPane.showMessageDialog(null,"已创建PID为"+pid+"的进程");
-            /*int res=JOptionPane.showConfirmDialog(null, "已创建进程1", "信息", JOptionPane.YES_OPTION);
-            if(res==JOptionPane.YES_OPTION){
-            }*/
-            System.out.println("234234");
+
             String name = textField.getText();
             String runTime = textField1.getText();
             int PID = pid++;
@@ -113,7 +108,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        //当 CPU 未占用时
+                            //当 CPU 未占用时
                             if (model1.getRowCount() == 0){
                             //当就绪队列无进程时
                             if (model2.getRowCount() == 0){
@@ -132,7 +127,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                             row[3] = produce1.getTimeRest();
                             model2.removeRow(0);
                             model1.addRow(row);
-                                System.out.println(row[2]);
+                            return;
                         }
 
 

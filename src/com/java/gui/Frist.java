@@ -30,7 +30,6 @@ public class Frist extends JFrame{
     public static DefaultTableModel model1;
     public static DefaultTableModel model3;
 
-    public static Object[] row;
     public static void main(String[] args) {
 
 
@@ -82,13 +81,17 @@ public class Frist extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 String pid = JOptionPane.showInputDialog("输入进程号");
+                if (pid.isEmpty()){
+                    JOptionPane.showMessageDialog(b2,"请输入进程号");
+                    return;
+                }
                 int stopPid = Integer.parseInt(pid);
                 if ( model1.getRowCount() > 0){
                     if (stopPid == (int)model1.getValueAt(0,0) ){
                         JOptionPane.showMessageDialog(b2,"确定停止该进程？");
                         model1.removeRow(0);
+                        return;
                     }
-                    return;
                 }
                 for (int i=0;i<model2.getRowCount();i++){
                     if (stopPid == (int)model2.getValueAt(i,0)){
@@ -100,7 +103,7 @@ public class Frist extends JFrame{
                 for (int i=0;i<model3.getRowCount();i++){
                     if (stopPid == (int)model3.getValueAt(i,0)){
                         JOptionPane.showMessageDialog(b2,"确定停止该进程？");
-                        model2.removeRow(i);
+                        model3.removeRow(i);
                         return;
                     }
                 }
@@ -162,7 +165,6 @@ public class Frist extends JFrame{
         model1 = new DefaultTableModel(columsNames,0);
         tableRun = new JTable(model1);
         panelAb.add(new JScrollPane(tableRun));
-
 
         JPanel panelB = new JPanel();
         panelB.setBorder(new TitledBorder("就绪态"));
