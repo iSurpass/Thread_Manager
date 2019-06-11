@@ -26,30 +26,51 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
     public static Object[] row = new Object[4];
 
     public CreateProduceWindow(){
-        this.setSize(400,400);
+        this.setSize(400,300);
         this.setVisible(true);
         this.setTitle("创建进程");
         GridLayout g1 = new GridLayout(1,2);
         GridLayout g2 = new GridLayout(1,2);
         JPanel panel = new JPanel(g1);
-        panel.setSize(400,30);
+        panel.setSize(400,50);
         JPanel panel1 = new JPanel(g2);
-        panel1.setSize(400,30);
-        panel1.setLocation(0,30);
+        panel1.setSize(400,50);
+        panel1.setLocation(0,50);
         JPanel panel2 = new JPanel();
-        panel2.setSize(400,30);
-        panel2.setLocation(0,30);
+        panel2.setSize(400,50);
+        panel2.setLocation(0,50);
         JLabel label = new JLabel("进程名称",JLabel.LEFT);
+        label.setFont(new java.awt.Font("Dialog", 1, 15));
         JLabel label1 = new JLabel("运行时间",JLabel.LEFT);
+        label1.setFont(new java.awt.Font("Dialog", 1, 15));
         b1.addActionListener(this);
         b2.addActionListener(this);
+
+
+        panel.setLayout(g1);
+        panel1.setLayout(g2);
+        JPanel pan1 = new JPanel();
+        JPanel pan2 = new JPanel();
+        pan1.setLayout(new FlowLayout());
+        pan2.setLayout(new FlowLayout());
+        pan1.add(label);
+        pan1.add(b1);
+        pan2.add(b2);
+
         panel.add(label);
+//        panel.add(pan1);
         panel.add(textField);
         panel1.add(label1);
+//        panel1.add(pan2);
         panel1.add(textField1);
         panel2.add(b1);
         panel2.add(b2);
+        this.setLayout(new GridLayout(6,1));
+        JPanel pan3 = new JPanel();
+        JPanel pan4 = new JPanel();
+        this.add(pan3);
         this.add(panel);
+        this.add(pan4);
         this.add(panel1);
         this.add(panel2);
     }

@@ -40,6 +40,10 @@ public class Frist extends JFrame{
 
         JMenuBar bar = new JMenuBar();
         JMenu menu = new JMenu("设置");
+        JMenuItem menuItem = new JMenuItem("默认设置:1个CPU,20s时间片");
+        menuItem.setFont(new java.awt.Font("Dialog", 1, 20));
+        menu.add(menuItem);
+        menu.setFont(new java.awt.Font("Dialog", 1, 20));
         menu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,6 +55,7 @@ public class Frist extends JFrame{
         });
         bar.add(menu);
         JMenu menu1 = new JMenu("关于");
+        menu1.setFont(new java.awt.Font("Dialog", 1, 20));
         menu1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,13 +67,15 @@ public class Frist extends JFrame{
         });
         bar.add(menu1);
         JMenuItem item = new JMenuItem("Faker must be dead!");
+        item.setFont(new java.awt.Font("Dialog", 1, 20));
         menu1.add(item);
         frame.setJMenuBar(bar);
 
         JPanel panel1 = new JPanel();
         panel1.setLayout(flow);
-        panel1.setSize(200,40);
+        panel1.setSize(270,40);
         JButton b1 = new JButton("创建进程");
+        b1.setFont(new java.awt.Font("Dialog", 1, 20));
         b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -76,6 +83,7 @@ public class Frist extends JFrame{
             }
         });
         JButton b2 = new JButton("停止进程");
+        b2.setFont(new java.awt.Font("Dialog", 1, 20));
         b2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,11 +128,14 @@ public class Frist extends JFrame{
         panel.setLocation(0,40);
         panel.setSize(1450,800);
         JPanel panelA = new JPanel();
-        panelA.setBorder(new TitledBorder("运行态"));
+        TitledBorder border = new TitledBorder("运行态");
+        border.setTitleFont(new java.awt.Font("Dialog", 1, 20));
+        panelA.setBorder(border);
         panelA.setSize(220,220);
         JPanel panelAa = new JPanel();
         panelAa.setSize(40,20);
         JButton bs1 = new JButton("停止");
+        bs1.setFont(new java.awt.Font("Dialog", 1, 20));
         bs1.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
@@ -138,6 +149,7 @@ public class Frist extends JFrame{
       });
         panelAa.add(bs1);
         JButton bz1 = new JButton("阻塞");
+        bz1.setFont(new java.awt.Font("Dialog", 1, 20));
         bz1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -167,11 +179,14 @@ public class Frist extends JFrame{
         panelAb.add(new JScrollPane(tableRun));
 
         JPanel panelB = new JPanel();
-        panelB.setBorder(new TitledBorder("就绪态"));
+        TitledBorder border1 = new TitledBorder("就绪态");
+        border1.setTitleFont(new java.awt.Font("Dialog", 1, 20));
+        panelB.setBorder(border1);
         panelB.setSize(120,220);
         JPanel panelBa = new JPanel();
         panelBa.setSize(40,20);
         JButton bs2 = new JButton("停止");
+        bs2.setFont(new java.awt.Font("Dialog", 1, 20));
         bs2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -198,11 +213,14 @@ public class Frist extends JFrame{
 
 
         JPanel panelC = new JPanel();
-        panelC.setBorder(new TitledBorder("阻塞态"));
+        TitledBorder border2 = new TitledBorder("阻塞态");
+        border2.setTitleFont(new java.awt.Font("Dialog", 1, 20));
+        panelC.setBorder(border2);
         panelC.setSize(120,220);
         JPanel panelCa = new JPanel();
         panelCa.setSize(40,20);
         JButton bs3 = new JButton("停止");
+        bs3.setFont(new java.awt.Font("Dialog", 1, 20));
         bs3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -217,6 +235,7 @@ public class Frist extends JFrame{
         });
         panelCa.add(bs3);
         JButton jl = new JButton("激活");
+        jl.setFont(new java.awt.Font("Dialog", 1, 20));
         panelCa.add(jl);
         jl.addActionListener(new ActionListener() {
             @Override
