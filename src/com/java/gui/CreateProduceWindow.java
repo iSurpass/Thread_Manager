@@ -9,6 +9,7 @@ import static com.java.gui.Frist.*;
 
 
 /**
+ * 创建进程窗口类
  * @author Juniors
  */
 public class CreateProduceWindow extends JFrame implements ActionListener {
@@ -58,10 +59,8 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
         pan2.add(b2);
 
         panel.add(label);
-//        panel.add(pan1);
         panel.add(textField);
         panel1.add(label1);
-//        panel1.add(pan2);
         panel1.add(textField1);
         panel2.add(b1);
         panel2.add(b2);
@@ -88,7 +87,13 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null,"您时间输入为空");
                 return;
             }
+
             JOptionPane.showMessageDialog(null,"已创建PID为"+pid+"的进程");
+
+            if (pid == 5){
+                JOptionPane.showMessageDialog(null,"抱歉,您创建进程已满");
+                return;
+            }
 
             String name = textField.getText();
             String runTime = textField1.getText();
@@ -151,7 +156,7 @@ public class CreateProduceWindow extends JFrame implements ActionListener {
                             return;
                         }
 
-
+                        //将新创建的进程加入到运行队列中
                         Produce produce1 = new Produce();
                         int PID = (Integer)model1.getValueAt(0,0);
                         produce1.setPID((Integer) model1.getValueAt(0,0));

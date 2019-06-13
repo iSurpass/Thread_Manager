@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 主 Frame 类
  * @author Juniors
  */
 public class Frist extends JFrame{
@@ -26,7 +27,6 @@ public class Frist extends JFrame{
     public static JTable tableDis;
     public static JPanel panelBb;
     public static DefaultTableModel model2;
-
     public static DefaultTableModel model1;
     public static DefaultTableModel model3;
 
@@ -36,11 +36,11 @@ public class Frist extends JFrame{
         JFrame frame = new JFrame("进程管理与调度模拟程序");
         FlowLayout flow = new FlowLayout();
         frame.setLayout(null);
-        frame.setSize(1500,800);
+        frame.setSize(1500,700);
 
         JMenuBar bar = new JMenuBar();
         JMenu menu = new JMenu("设置");
-        JMenuItem menuItem = new JMenuItem("默认设置:1个CPU,20s时间片");
+        JMenuItem menuItem = new JMenuItem("默认设置:1个CPU,20s时间片,时钟频率:5s,最大进程数:5");
         menuItem.setFont(new java.awt.Font("Dialog", 1, 20));
         menu.add(menuItem);
         menu.setFont(new java.awt.Font("Dialog", 1, 20));
@@ -56,15 +56,6 @@ public class Frist extends JFrame{
         bar.add(menu);
         JMenu menu1 = new JMenu("关于");
         menu1.setFont(new java.awt.Font("Dialog", 1, 20));
-        menu1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showInternalConfirmDialog(frame,
-                        "抄袭必挂！！！", "0v0",
-                        JOptionPane.YES_NO_CANCEL_OPTION,
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
         bar.add(menu1);
         JMenuItem item = new JMenuItem("Faker must be dead!");
         item.setFont(new java.awt.Font("Dialog", 1, 20));
@@ -244,8 +235,9 @@ public class Frist extends JFrame{
                 int res=JOptionPane.showConfirmDialog(null, "是否激活该进程吗？", "是否继续", JOptionPane.YES_NO_OPTION);
                 if(res==JOptionPane.YES_OPTION){
                     int index = tableDis.getSelectedRow();
+                    int pid = (int) tableDis.getValueAt(index,0);
                     model3.removeRow(index);
-                    Produce produce = produceMap.get(index);
+                    Produce produce = produceMap.get(pid);
                     Object[] row = new Object[3];
                     row[0] = produce.getPID();
                     row[1] = produce.getName();
@@ -271,8 +263,6 @@ public class Frist extends JFrame{
         panel.add(panelC);
         frame.add(panel);
 
-
         frame.setVisible(true);
-
     }
 }
